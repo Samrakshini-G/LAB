@@ -52,3 +52,9 @@ pipeline {
         }
     }
 }
+environment {
+    PATH           = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+    IMAGE_NAME     = "samrakshini-g/node-cicd-app"
+    IMAGE_TAG      = "${env.BUILD_NUMBER}"
+    CONTAINER_NAME = "node-cicd-container"
+}
