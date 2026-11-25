@@ -1,13 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_EXE     = '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe"'
-        IMAGE_NAME     = "samrakshini-g/node-cicd-app"
-        IMAGE_TAG      = "${env.BUILD_NUMBER}"
-        CONTAINER_NAME = "node-cicd-container"
-    }
-
+ environment {
+    DOCKER_EXE     = '"C:\\Users\\Samrakshini G\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe"'
+    IMAGE_NAME     = "samrakshini-g/node-cicd-app"
+    IMAGE_TAG      = "${env.BUILD_NUMBER}"
+    CONTAINER_NAME = "node-cicd-container"
+}
     stages {
         stage('Checkout') {
             steps {
