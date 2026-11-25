@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME     = "your-dockerhub-user/node-cicd-app"
+        DOCKER_EXE     = '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe"'
+        IMAGE_NAME     = "samrakshini-g/node-cicd-app"
         IMAGE_TAG      = "${env.BUILD_NUMBER}"
         CONTAINER_NAME = "node-cicd-container"
     }
@@ -28,16 +29,16 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% -t %IMAGE_NAME%:latest ."
+                bat "%DOCKER_EXE% build -t %IMAGE_NAME%:%IMAGE_TAG% -t %IMAGE_NAME%:latest ."
             }
         }
 
         stage('Deploy Container') {
             steps {
                 bat """
-                    docker stop %CONTAINER_NAME% 2>nul || exit 0
-                    docker rm %CONTAINER_NAME% 2>nul || exit 0
-                    docker run -d --name %CONTAINER_NAME% -p 3000:3000 %IMAGE_NAME%:%IMAGE_TAG%
+                    %DOCKER_EXE% stop %CONTAINER_NAME% 2>nul || exit 0
+                    %DOCKER_EXE% rm %CONTAINER_NAME% 2>nul || exit 0
+                    %DOCKER_EXE% run -d --name %CONTAINER_NAME% -p 3000:3000 %IMAGE_NAME%:%IMAGE_TAG%
                 """
             }
         }
@@ -51,10 +52,4 @@ pipeline {
             echo "Build #${env.BUILD_NUMBER} failed. Deployment stopped."
         }
     }
-}
-environment {
-    PATH           = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
-    IMAGE_NAME     = "samrakshini-g/node-cicd-app"
-    IMAGE_TAG      = "${env.BUILD_NUMBER}"
-    CONTAINER_NAME = "node-cicd-container"
 }
